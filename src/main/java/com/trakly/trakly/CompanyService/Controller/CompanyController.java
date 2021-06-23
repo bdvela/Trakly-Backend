@@ -26,17 +26,17 @@ public class CompanyController {
     @Autowired
     private ModelMapper mapper;
 
-    @Operation(summary="Post Company", description="Create Company", tags={"companys"})
+    @Operation(summary="Post Company", description="Create Company", tags={"companies"})
     @PostMapping("/company")
     public CompanyResource createCompany(@Valid @RequestBody SaveCompanyResource resource) {
         Company company = convertToEntity(resource);
         return convertToResource(companyService.createCompany(company));
     }
 
-    @Operation(summary = "Get Companys", description = "Get All Companys", tags={"companys"})
+    @Operation(summary = "Get Companies", description = "Get All Companies", tags={"companies"})
     @GetMapping("/company")
-    public Page<CompanyResource> getAllCompany(Pageable pageable){
-        Page<Company> companyPage = companyService.getAllCompany(pageable);
+    public Page<CompanyResource> getAllCompanies(Pageable pageable){
+        Page<Company> companyPage = companyService.getAllCompanies(pageable);
         List<CompanyResource> resources = companyPage.getContent()
                 .stream()
                 .map(this::convertToResource)
@@ -44,7 +44,7 @@ public class CompanyController {
         return new PageImpl<>(resources,pageable, resources.size());
     }
 
-    @Operation(summary="Update Companys", description="Update Companys", tags={"companys"})
+    @Operation(summary="Update Company", description="Update Company", tags={"companies"})
     @PutMapping("/company/{companyId}")
     public CompanyResource updateCompany(@PathVariable Long companyId,
                                          @Valid @RequestBody SaveCompanyResource resource){
@@ -52,13 +52,13 @@ public class CompanyController {
         return convertToResource(companyService.updateCompany(companyId,company));
     }
 
-    @Operation(summary = "Delete Companys", description = "Delete Companys", tags={"companys"})
+    @Operation(summary = "Delete Company", description = "Delete Company", tags={"companies"})
     @DeleteMapping("/company/{companyId}")
     public ResponseEntity<?> deleteCompany(@PathVariable Long companyId) {
         return companyService.deleteCompany(companyId);
     }
 
-    @Operation(summary = "Get Companys by Id", description = "Get Companys by Id", tags={"companys"})
+    @Operation(summary = "Get Company by Id", description = "Get Company by Id", tags={"companies"})
     @GetMapping("/company/{companyId}")
     public CompanyResource getCompanyResource(@PathVariable Long companyId){
         return convertToResource(companyService.getCompanyById(companyId));
