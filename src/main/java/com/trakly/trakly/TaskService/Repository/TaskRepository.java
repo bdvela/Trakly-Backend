@@ -1,12 +1,12 @@
-package com.trakly.trakly.AreaService.Repository;
+package com.trakly.trakly.TaskService.Repository;
 
-import com.trakly.trakly.Models.Area;
+import com.trakly.trakly.Models.Task;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface AreaRepository extends JpaRepository<Area, Long> {
-    public Page<Area> findById(Long Id, Pageable pageable);
+public interface TaskRepository extends JpaRepository<Task, Long> {
+    public Page<Task> findById(Long Id, Pageable pageable);
 }

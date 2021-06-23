@@ -1,16 +1,14 @@
-package com.trakly.trakly.AreaService.Resource;
+package com.trakly.trakly.TaskListService.Resource;
 
-
-public class AreaResource {
+public class TaskListResource {
     private Long id;
     private String name;
-
 
     public Long getId() {
         return id;
     }
 
-    public AreaResource setId(Long id) {
+    public TaskListResource setId(Long id) {
         this.id = id;
         return this;
     }
@@ -19,7 +17,7 @@ public class AreaResource {
         return name;
     }
 
-    public AreaResource setName(String name) {
+    public TaskListResource setName(String name) {
         this.name = name;
         return this;
     }
