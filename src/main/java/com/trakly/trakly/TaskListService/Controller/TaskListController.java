@@ -27,10 +27,10 @@ public class TaskListController {
     private ModelMapper mapper;
 
     @Operation(summary = "Post TaskList", description = "Create TaskList", tags = {"taskLists"})
-    @PostMapping("/taskList/")
-    public TaskListResource createTaskList(@Valid @RequestBody SaveTaskListResource resource){
+    @PostMapping("/taskList/{workerId}")
+    public TaskListResource createTaskList(@PathVariable Long workerId, @Valid @RequestBody SaveTaskListResource resource){
         TaskList taskList = convertToEntity(resource);
-        return convertToResource(taskListService.createTaskList(taskList));
+        return convertToResource(taskListService.createTaskList(workerId, taskList));
     }
 
     @Operation(summary = "Get TaskLists", description = "Get All TaskLists", tags = {"taskLists"})

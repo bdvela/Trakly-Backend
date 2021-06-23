@@ -32,10 +32,10 @@ public class PositionController {
 
 
     @Operation(summary = "Post Position", description = "Create Position", tags = {"positions"})
-    @PostMapping("/position")
-    public PositionResource createPosition(@Valid @RequestBody SavePositionResource resource) {
+    @PostMapping("/position/{workerId}")
+    public PositionResource createPosition(@PathVariable Long workerId, @Valid @RequestBody SavePositionResource resource) {
         Position position = convertToEntity(resource);
-        return convertToResource(positionService.createPosition(position));
+        return convertToResource(positionService.createPosition(workerId, position));
     }
 
     @Operation(summary = "Get Positions", description = "Get All Positions", tags={"positions"})

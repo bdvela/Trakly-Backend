@@ -4,6 +4,7 @@ import com.trakly.trakly.Models.Company;
 import com.trakly.trakly.Models.Position;
 import com.trakly.trakly.PositionService.Repository.PositionRepository;
 import com.trakly.trakly.PositionService.Service.Implementation.PositionService;
+import com.trakly.trakly.WorkerService.Repository.WorkerRepository;
 import com.trakly.trakly.exception.ResourceNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -15,6 +16,9 @@ import org.springframework.stereotype.Service;
 public class PositionServiceImpl implements PositionService {
     @Autowired
     private PositionRepository positionRepository;
+
+    @Autowired
+    private WorkerRepository workerRepository;
 
     @Override
     public Page<Position> getAllPositions(Pageable pageable) {
@@ -28,8 +32,11 @@ public class PositionServiceImpl implements PositionService {
     }
 
     @Override
-    public Position createPosition(Position position) {
-        return positionRepository.save(position);
+    public Position createPosition(Long workerId, Position position) {
+        return workerRepository.findById(workerId).map(worker -> {
+            position.setWorker(worker);
+            return positionRepository.save(position);
+        }).orElseThrow(() -> new ResourceNotFoundException("Worker","Id",workerId));
     }
 
     @Override

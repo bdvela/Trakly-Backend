@@ -4,6 +4,7 @@ import com.trakly.trakly.Models.Company;
 import com.trakly.trakly.Models.Summary;
 import com.trakly.trakly.SummaryService.Repository.SummaryRepository;
 import com.trakly.trakly.SummaryService.Service.Implementation.SummaryService;
+import com.trakly.trakly.WorkerService.Repository.WorkerRepository;
 import com.trakly.trakly.exception.ResourceNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -15,6 +16,9 @@ import org.springframework.stereotype.Service;
 public class SummaryServiceImpl implements SummaryService {
     @Autowired
     private SummaryRepository summaryRepository;
+
+    @Autowired
+    private WorkerRepository workerRepository;
 
     @Override
     public Page<Summary> getAllSummaries(Pageable pageable) {
@@ -28,8 +32,11 @@ public class SummaryServiceImpl implements SummaryService {
     }
 
     @Override
-    public Summary createSummary(Summary summary) {
-        return summaryRepository.save(summary);
+    public Summary createSummary(Long workerId, Summary summary) {
+        return workerRepository.findById(workerId).map(worker -> {
+            summary.setWorker(worker);
+            return summaryRepository.save(summary);
+        }).orElseThrow(() -> new ResourceNotFoundException("Worker","Id",workerId));
     }
 
     @Override

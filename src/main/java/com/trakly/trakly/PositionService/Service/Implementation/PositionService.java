@@ -9,7 +9,7 @@ import org.springframework.http.ResponseEntity;
 public interface PositionService {
     Page<Position> getAllPositions(Pageable pageable);
     Position getPositionById(Long positionId);
-    Position createPosition(Position position);
+    Position createPosition(Long workerId, Position position);
     Position updatePosition(Long positionId, Position positionRequest);
     ResponseEntity<?> deletePosition (Long positionId);
 }

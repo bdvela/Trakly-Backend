@@ -3,6 +3,7 @@ package com.trakly.trakly.TaskListService.Service;
 import com.trakly.trakly.Models.TaskList;
 import com.trakly.trakly.TaskListService.Repository.TaskListRepository;
 import com.trakly.trakly.TaskListService.Service.Implementation.TaskListService;
+import com.trakly.trakly.WorkerService.Repository.WorkerRepository;
 import com.trakly.trakly.exception.ResourceNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -14,6 +15,9 @@ import org.springframework.stereotype.Service;
 public class TaskListServiceImpl implements TaskListService {
     @Autowired
     private TaskListRepository taskListRepository;
+
+    @Autowired
+    private WorkerRepository workerRepository;
 
     @Override
     public Page<TaskList> getAllTaskLists(Pageable pageable) {
@@ -27,8 +31,11 @@ public class TaskListServiceImpl implements TaskListService {
     }
 
     @Override
-    public TaskList createTaskList(TaskList taskList) {
-        return taskListRepository.save(taskList);
+    public TaskList createTaskList(Long workerId, TaskList taskList) {
+        return workerRepository.findById(workerId).map(worker -> {
+            taskList.setWorker(worker);
+            return taskListRepository.save(taskList);
+        }).orElseThrow(() -> new ResourceNotFoundException("Worker","Id", workerId));
     }
 
     @Override

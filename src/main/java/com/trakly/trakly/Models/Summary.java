@@ -1,5 +1,9 @@
 package com.trakly.trakly.Models;
 
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
+import org.hibernate.jdbc.Work;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
@@ -21,11 +25,17 @@ public class Summary {
     @NotNull
     private Float monthlyAverage;
 
-    public Summary(Long id, @NotNull Integer finishedTasks, @NotNull Integer pendingTasks, @NotNull Float monthlyAverage) {
+    @OneToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "fk_worker_id",nullable = false)
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    private Worker worker;
+
+    public Summary(Long id, @NotNull Integer finishedTasks, @NotNull Integer pendingTasks, @NotNull Float monthlyAverage, Worker worker) {
         this.id = id;
         this.finishedTasks = finishedTasks;
         this.pendingTasks = pendingTasks;
         this.monthlyAverage = monthlyAverage;
+        this.worker = worker;
     }
 
     public Summary() {
@@ -66,6 +76,14 @@ public class Summary {
 
     public Summary setMonthlyAverage(Float monthlyAverage) {
         this.monthlyAverage = monthlyAverage;
+        return this;
+    }
+    public Worker getWorker() {
+        return worker;
+    }
+
+    public Summary setWorker(Worker worker) {
+        this.worker = worker;
         return this;
     }
 }

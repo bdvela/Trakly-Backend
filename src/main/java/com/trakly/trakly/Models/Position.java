@@ -1,5 +1,9 @@
 package com.trakly.trakly.Models;
 
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
+import org.hibernate.jdbc.Work;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 
@@ -14,10 +18,15 @@ public class Position {
     @NotNull
     private String name;
 
+    @OneToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "fk_worker_id",nullable = false)
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    private Worker worker;
 
     public Position(Long id, @NotNull String name) {
         this.id = id;
         this.name = name;
+        this.worker = worker;
     }
 
     public Position() {
@@ -39,6 +48,15 @@ public class Position {
 
     public Position setName(String name) {
         this.name = name;
+        return this;
+    }
+
+    public Worker getWorker() {
+        return worker;
+    }
+
+    public Position setWorker(Worker worker) {
+        this.worker = worker;
         return this;
     }
 }

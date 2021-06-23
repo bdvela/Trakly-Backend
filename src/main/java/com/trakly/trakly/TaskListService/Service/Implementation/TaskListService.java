@@ -8,7 +8,7 @@ import org.springframework.http.ResponseEntity;
 public interface TaskListService {
     Page<TaskList> getAllTaskLists(Pageable pageable);
     TaskList getTaskListById(Long taskListId);
-    TaskList createTaskList(TaskList taskList);
+    TaskList createTaskList(Long workerId, TaskList taskList);
     TaskList updateTaskList(Long taskListId, TaskList taskListRequest);
     ResponseEntity<?> deleteTaskList(Long taskListId);
 }

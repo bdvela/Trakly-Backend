@@ -29,12 +29,11 @@ public class SummaryController {
     @Autowired
     private ModelMapper mapper;
 
-
     @Operation(summary="Post Summary", description="Create Summary", tags={"summaries"})
-    @PostMapping("/summary")
-    public SummaryResource createSummary(@Valid @RequestBody SaveSummaryResource resource) {
+    @PostMapping("/summary/{workerId}")
+    public SummaryResource createSummary(@PathVariable Long workerId, @Valid @RequestBody SaveSummaryResource resource) {
         Summary summary = convertToEntity(resource);
-        return convertToResource(summaryService.createSummary(summary));
+        return convertToResource(summaryService.createSummary(workerId, summary));
     }
 
     @Operation(summary = "Get Summaries", description = "Get All Summaries", tags={"summaries"})

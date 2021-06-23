@@ -20,9 +20,15 @@ public class TaskList {
     @NotNull
     private String name;
 
-    public TaskList(Long id, @NotNull String name) {
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "fk_worker_id")
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    private Worker worker;
+
+    public TaskList(Long id, @NotNull String name, Worker worker) {
         this.id = id;
         this.name = name;
+        this.worker= worker;
     }
 
     public TaskList() {
@@ -45,6 +51,14 @@ public class TaskList {
 
     public TaskList setName(String name) {
         this.name = name;
+        return this;
+    }
+    public Worker getWorker() {
+        return worker;
+    }
+
+    public TaskList setWorker(Worker worker) {
+        this.worker = worker;
         return this;
     }
 
